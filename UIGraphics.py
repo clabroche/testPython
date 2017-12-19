@@ -12,6 +12,7 @@ class UI(Thread):
 
     def run(self):
         self.fenetre = Tk()
+        self.fenetre.title('Story of a flower')
         self.init = True
         self.fenetre.mainloop()
         self.finish = True

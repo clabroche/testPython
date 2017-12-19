@@ -4,4 +4,9 @@ class FlowerViewConsole(Observer):
         flower.register(self)
         self.flower = flower
     def update(self): 
-        print('repaint console', self.flower.nbLeaf)
+        text = ""
+        if self.flower.nbLeaf > 1:
+            text = 'Flower has {} petals'.format(self.flower.nbLeaf)
+        else:
+            text = 'Flower has {} petal'.format(self.flower.nbLeaf)
+        print(text)
