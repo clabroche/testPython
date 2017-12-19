@@ -1,4 +1,4 @@
-# testPython
+# Story of a flower
 
 The purpose of this app is to make me more familar with the language python.
 the app is a window that describes a flower and its leaves. Every second that passes the flower loses a leaf. You can press a button to recreate it.
