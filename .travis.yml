@@ -1,0 +1,32 @@
+language: python
+python:
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.5-dev"  # 3.5 development branch
+  - "3.6"
+  - "3.6-dev"  # 3.6 development branch
+  - "3.7-dev"  # 3.7 development branch
+  - "nightly"
+# command to install dependencies
+install:
+  - pip install cx_Freeze --upgrade
+
+before_deploy:
+  - cxfreeze app.py
+  - zip "linux-x64.zip" dist -r
+  - bash ../script/zip.sh
+  - export RELEASE_PKG_FILE=$(ls *.zip)
+  - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
+
+deploy:
+  - provider: releases
+    api_key:
+      secure: k+H9m+D/2Ol8FpW7S2dNBAF8lncVDFK5DOpjMhuqh3IRghIHmOrIKNEWH3rFrdTjWZzEmdLfJC425QfzjJJv0IX79BjB7HkRz/tb9XOhhgIeIbEIUWsXCP3wAr9MVwL5R+aomq1lJAHMJ/ypfTw9SRDO3YDsd0EkfHx5SVHL0ysu8BxNPi6SR5G3OgyMc6zHQ0nC1d6Z5qeVBaE0b7WNWz6iBs2ZwvsrBGqXAkIc0dlfZnsvVPtJLaQ0/7eCU+caljxgMGSSzJ5lHVtP6uAZf3YcCFbLa+pJGRMum72p1IwTM8dPiaRQqEijZmMdHTcHSOqKQz2vsg0tL6cgNqgKH0H3tf5dnpbE20vGOHiPBrJR9cKlb7yrPs5DqA1QmxbcOKtKUeGuTJbTeTzTGi8f5193bevswQehMaZt6opokC39XfUzauqlS93mxE5V1a+uxtzIHb/7QFGbpO7w0XCaKUfCqYJamDF0ZZjsg2JeXSt0osWbaVKNnyymcegOllW7UvnSY3jAWsnp/qwYH92V+EPjAagi6zU7H9MCthtuYwggXWx8OnDrDvRuW4PW7AVLL+DH7mtAx7vOcnxiwHYXt8rd60nKuMgH5nejhLNHS4Ra6Vi8QeLob65qV/6P+ZlceDS5MDgHHoOSCyKLj+XrUQvzbVy1NwVECb0px+b7deM=
+    skip_cleanup: true
+    file_glob: true
+    file: "*.zip"
+    on:
+      branch: master
